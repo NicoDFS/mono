@@ -15,8 +15,8 @@ else
 fi
 
 
-mkdir /app/kalycex -p
-cd /app/kalycex || exit
+mkdir ./kalycex -p
+cd ./kalycex || exit
 git clone  https://github.com/NicoDFS/KalyCEX-backend.git ./backend
 git clone  https://github.com/NicoDFS/KalyCEX-frontend.git ./frontend
 git clone  https://github.com/NicoDFS/KalyCEX-static.git ./nuxt
@@ -36,7 +36,7 @@ YOLLOPUKKI`"
 read -p "Press enter to continue"
 
 cd ./kalycex/backend || exit
-FILE=/app/kalycex/backend/.env
+FILE=./kalycex/backend/.env
 if test ! -f "$FILE"; then
 
 echo "`cat <<YOLLOPUKKI
@@ -1136,7 +1136,7 @@ prune=20000
 wallet=/data/.bitcoin/kalycex
 
 EOF
-docker compose up -d
+docker-compose up -d
 sleep 30;
 docker exec -it bitcoind bitcoin-cli -named createwallet wallet_name="kalycex" descriptors=false
 docker restart bitcoind
