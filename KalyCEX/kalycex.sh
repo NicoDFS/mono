@@ -23,21 +23,7 @@ git clone  https://github.com/NicoDFS/KalyCEX-frontend.git ./frontend
 git clone  https://github.com/NicoDFS/KalyCEX-static.git ./nuxt
 git clone  https://github.com/NicoDFS/KalyCEX-JS-admin.git ./admin
 
-echo "`cat <<YOLLOPUKKI
-
- 
-$$\   $$\          $$\            $$$$$$\  $$$$$$$$\ $$\   $$\ 
-$$ | $$  |         $$ |          $$  __$$\ $$  _____|$$ |  $$ |
-$$ |$$  / $$$$$$\  $$ |$$\   $$\ $$ /  \__|$$ |      \$$\ $$  |
-$$$$$  /  \____$$\ $$ |$$ |  $$ |$$ |      $$$$$\     \$$$$  / 
-$$  $$<   $$$$$$$ |$$ |$$ |  $$ |$$ |      $$  __|    $$  $$<  
-$$ |\$$\ $$  __$$ |$$ |$$ |  $$ |$$ |  $$\ $$ |      $$  /\$$\ 
-$$ | \$$\\$$$$$$$ |$$ |\$$$$$$$ |\$$$$$$  |$$$$$$$$\ $$ /  $$ |
-\__|  \__|\_______|\__| \____$$ | \______/ \________|\__|  \__|
-                       $$\   $$ |                              
-                       \$$$$$$  |                              
-                        \______/                               
-
+echo "`cat <<YOLLOPUKKI 
 
 Hello! This is KalyCEX Setup. Please enter parameters for the exchange.
 If you make a mistake when entering a parameter, don't worry, 
