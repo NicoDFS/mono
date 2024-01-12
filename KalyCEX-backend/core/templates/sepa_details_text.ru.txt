@@ -1,0 +1,7 @@
+Ваша сделка: {{quantity}} EUR (SEPA) за {{amount}} BTC
+
+Детали платежа (SEPA):
+Account holder: Exchange
+IBAN Number: TODO-UPDATE
+BIC Code: TODO-UPDATE
+Payment Reference: {{remittance_id}}

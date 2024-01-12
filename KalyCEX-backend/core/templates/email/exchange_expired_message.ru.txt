@@ -1,0 +1,9 @@
+Ваш платеж поступил после истечения срока ожидания. Обмен не может быть совершен, средства зачислены на ваш кошелек {{link}}
+
+Ваша сделка: {{amount}} {{currency}} (SEPA) за {{quoted_amount}} {{quoted_currency}}
+
+Детали платежа (SEPA):
+Account holder: Exchange
+IBAN Number: TODO-UPDATE
+BIC Code: TODO-UPDATE
+Payment Reference: {{payment_reference}}

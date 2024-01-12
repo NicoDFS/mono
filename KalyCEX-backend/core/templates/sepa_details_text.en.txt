@@ -1,0 +1,7 @@
+Exchange summary: {{quantity}} EUR (SEPA) for {{amount}} BTC
+
+Payment details (SEPA):
+Account holder: Exchange
+IBAN Number: TODO-UPDATE
+BIC Code: TODO-UPDATE
+Payment Reference: {{remittance_id}}
