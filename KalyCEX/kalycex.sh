@@ -8,8 +8,7 @@ if [ $(dpkg-query -W -f='${Status}' docker-ce 2>/dev/null | grep -c "ok installe
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update > /dev/null 2>&1
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io git docker-compose-plugin > /dev/null 2>&1
-    sudo systemctl enable docker > /dev/null 2>&1
-    sudo systemctl start docker > /dev/null 2>&1
+    # Removed enabling and starting Docker as a service since this is for local development
     echo "Docker has been successfully installed."
 else
     echo "Docker already installed."
@@ -36,7 +35,7 @@ YOLLOPUKKI`"
 
 read -p "Press enter to continue"
 
-cd /app/kalycex/backend || exit
+cd ./kalycex/backend || exit
 FILE=/app/kalycex/backend/.env
 if test ! -f "$FILE"; then
 
@@ -635,20 +634,20 @@ export CRYPTO_KEY
 BOT_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-12};echo;)
 export BOT_PASSWORD
 
-envsubst < /app/kalycex/backend/.env.template > /app/kalycex/backend/.env
+envsubst < ./kalycex/backend/.env.template > ./kalycex/backend/.env
 
 fi
 
 source /app/kalycex/backend/.env
 set -a
-cd /app/kalycex/frontend || exit
-FILE=/app/kalycex/frontend/src/local_config
+cd ./kalycex/frontend || exit
+FILE=./kalycex/frontend/src/local_config
 
 if test ! -f "$FILE"; then
 envsubst < /app/kalycex/frontend/src/example.local_config.js > /app/kalycex/frontend/src/local_config
 ### save to env
 
-cat << EOF >> /app/kalycex/backend/.env
+cat << EOF >> ./kalycex/backend/.env
 
 
 #kalycex frontend values
@@ -669,48 +668,48 @@ fi
 
 
 # build front
-mkdir -p /app/kalycex/frontend/deploy/
-cp /app/deploy/frontend/Dockerfile /app/kalycex/frontend/deploy/Dockerfile
-cp /app/deploy/frontend/default.conf /app/kalycex/frontend/deploy/default.conf
-cp /app/deploy/frontend/nginx.conf /app/kalycex/frontend/deploy/nginx.conf
+mkdir -p ./kalycex/frontend/deploy/
+cp ./deploy/frontend/Dockerfile ./kalycex/frontend/deploy/Dockerfile
+cp ./deploy/frontend/default.conf ./kalycex/frontend/deploy/default.conf
+cp ./deploy/frontend/nginx.conf ./kalycex/frontend/deploy/nginx.conf
 sed -i "s/ADMIN_BASE_URL/$ADMIN_BASE_URL/g" /app/kalycex/frontend/deploy/default.conf
 sed -i "s/DOMAIN/$DOMAIN/g" /app/kalycex/frontend/deploy/default.conf
 docker build -t frontend -f deploy/Dockerfile .
 
 # build nuxt
-mkdir -p /app/kalycex/nuxt/deploy/
-cd /app/kalycex/nuxt || exit
-cp /app/deploy/nuxt/.env.template /app/kalycex/nuxt/
-cp /app/deploy/nuxt/Dockerfile /app/kalycex/nuxt/deploy/Dockerfile
-envsubst < /app/kalycex/nuxt/.env.template > /app/kalycex/nuxt/.env
+mkdir -p ./kalycex/nuxt/deploy/
+cd ./kalycex/nuxt || exit
+cp ./deploy/nuxt/.env.template ./kalycex/nuxt/
+cp ./deploy/nuxt/Dockerfile ./kalycex/nuxt/deploy/Dockerfile
+envsubst < ./kalycex/nuxt/.env.template > ./kalycex/nuxt/.env
 docker build -t nuxt -f deploy/Dockerfile .
 
 # build admin
-mkdir -p /app/kalycex/admin/deploy/
-cd /app/kalycex/admin || exit
-cp /app/deploy/admin/Dockerfile /app/kalycex/admin/deploy/Dockerfile
-cp /app/deploy/admin/default.conf /app/kalycex/admin/deploy/default.conf
-cp /app/deploy/admin/.env.template /app/kalycex/admin/
+mkdir -p ./kalycex/admin/deploy/
+cd ./kalycex/admin || exit
+cp ./deploy/admin/Dockerfile ./kalycex/admin/deploy/Dockerfile
+cp ./deploy/admin/default.conf ./kalycex/admin/deploy/default.conf
+cp ./deploy/admin/.env.template ./kalycex/admin/
 sed -i "s/ADMIN_BASE_URL/$ADMIN_BASE_URL/g" /app/kalycex/admin/deploy/default.conf
 envsubst < /app/kalycex/admin/.env.template > /app/kalycex/admin/src/local_config.js
 docker build -t admin -f deploy/Dockerfile .
 
 
 # build backend
-cd /app/kalycex/backend/ || exit
-chmod +x /app/kalycex/backend/manage.py
+cd ./kalycex/backend/ || exit
+chmod +x ./kalycex/backend/manage.py
 docker build -t kalycex .
 
 
 ### install Caddy
 
-mkdir /app/kalycex -p
-cd /app/kalycex || exit
-mkdir caddy_data postgresql_data redis_data rabbitmq_data rabbitmq_logs bitcoind_data -p
-chmod 777 caddy_data postgresql_data redis_data rabbitmq_data rabbitmq_logs bitcoind_data
+mkdir ./kalycex -p
+cd ./kalycex || exit
+mkdir .caddy_data .postgresql_data .redis_data .rabbitmq_data .rabbitmq_logs .bitcoind_data -p
+chmod 777 .caddy_data .postgresql_data .redis_data .rabbitmq_data .rabbitmq_logs .bitcoind_data
 docker network create caddy
 
-cat << EOF > docker-compose.yml
+cat << EOF > ./docker-compose.yml
 version: "3.7"
 networks:
   caddy:
@@ -1091,11 +1090,11 @@ EOF
 
 # build hummingbot
 if [ "$IS_HUMMINGBOT_ENABLED" = "True" ]; then
-cd /app/kalycex || exit
-git clone  https://github.com/KalyCoinProject/hummingbot.git ./hmbot
-cd ./hmbot
+cd ./kalycex || exit
+git clone  https://github.com/KalyCoinProject/hummingbot.git ./.hmbot
+cd ./.hmbot
 docker build -t hummingbot:latest -f Dockerfile --target=release .
-cat << EOF >> /app/kalycex/docker-compose.yml
+cat << EOF >> ./kalycex/docker-compose.yml
     hummingbot:
      container_name: hummingbot
      hostname: hummingbot
@@ -1114,20 +1113,20 @@ cat << EOF >> /app/kalycex/docker-compose.yml
      stdin_open: true
 EOF
 fi
-cd /app/kalycex
-docker compose up -d
+cd ./kalycex
+docker-compose up -d
 
 docker stop kalycex-cel kalycex-wss
 sleep 5;
 docker exec -it kalycex python ./manage.py migrate
 docker exec -it kalycex python ./manage.py collectstatic
-docker compose up -d
+docker-compose up -d
 
 
 
-cd /app/kalycex || exit
-docker compose stop
-cat << EOF > /app/kalycex/bitcoind_data/bitcoin.conf
+cd ./kalycex || exit
+docker-compose stop
+cat << EOF > ./kalycex/.bitcoind_data/bitcoin.conf
 rpcuser=$BTC_NODE_USER
 rpcpassword=$BTC_NODE_PASS
 rpcallowip=0.0.0.0/0
@@ -1145,9 +1144,9 @@ sleep 30;
 docker exec -it kalycex python wizard.py
 cd /app/kalycex || exit
 docker compose stop
-docker compose up -d
+docker-compose up -d
 
 # cleanup
-# cd /app/kalycex && docker compose down
-# rm -rf /app
+# cd ./kalycex && docker-compose down
+# rm -rf ./
 # docker system prune -a
