@@ -8,7 +8,7 @@ if [ $(dpkg-query -W -f='${Status}' docker-ce 2>/dev/null | grep -c "ok installe
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update > /dev/null 2>&1
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io git docker-compose-plugin > /dev/null 2>&1
-    # Removed enabling and starting Docker as a service since this is for local development
+# Docker has been successfully installed.
     echo "Docker has been successfully installed."
 else
     echo "Docker already installed."
@@ -52,6 +52,9 @@ ADMIN_USER* - email of the user that would have admin rights
 ADMIN_MASTERPASS* - master password, used to create 
    balance accrual/debit transactions
 SUPPORT_EMAIL - email address of support
+AWS_ACCESS_KEY_ID - aws access key
+AWS_SECRET_ACCESS_KEY - aws secret key
+AWS_DEFAULT_REGION - aws region
 
 -----------------------------------------------------------
 YOLLOPUKKI`"
@@ -81,6 +84,18 @@ export ADMIN_MASTERPASS
 echo -n "SUPPORT_EMAIL: "
 read SUPPORT_EMAIL
 export SUPPORT_EMAIL
+
+echo -n "AWS_ACCESS_KEY_ID*: "
+read AWS_ACCESS_KEY_ID
+export AWS_ACCESS_KEY_ID
+
+echo -n "AWS_SECRET_ACCESS_KEY*: "
+read AWS_SECRET_ACCESS_KEY
+export AWS_SECRET_ACCESS_KEY
+
+echo -n "AWS_DEFAULT_REGION*: "
+read AWS_DEFAULT_REGION
+export AWS_DEFAULT_REGION
 
 #TELEGRAM - telegram chat URL (i.e. kalychain)
 #FACEBOOK - facebook page URL
@@ -1145,6 +1160,15 @@ docker exec -it kalycex python wizard.py
 cd /app/kalycex || exit
 docker compose stop
 docker-compose up -d
+
+cat << EOF >> ./kalycex/docker-compose.yml
+    web3signer:
+     container_name: web3signer
+     image: consensys/web3signer:latest
+     restart: always
+     networks:
+       - caddy
+EOF
 
 # cleanup
 # cd ./kalycex && docker-compose down

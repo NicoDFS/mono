@@ -22,12 +22,15 @@ TOKENS_BLOCKCHAINS_MAP = {
     'BNB': BEP20_CURRENCIES,
     'TRX': TRC20_CURRENCIES,
     'MATIC': ERC20_MATIC_CURRENCIES,
+    'KLC': KRC20_CURRENCIES,
+
 }
 EXPLORERS_MAP = {
     'ETH': 'https://etherscan.io/',
     'BNB': 'https://bscscan.com/',
     'TRX': 'https://tronscan.org/',
     'MATIC': 'https://polygonscan.com/',
+    'KLC': 'https://kalyscan.io/',
 }
 
 HEADER = """
@@ -59,7 +62,7 @@ STEP1_HEADER = """
 
 Token symbol* - ticker symbol of the token (i.e. USDT)
 Token blockchain symbol* - symbol of token's blockhain. 
-    Supported only ETH(Ethereum), BNB(BSC), TRX(Tron)
+    Supported only ETH(Ethereum), BNB(BSC), TRX(Tron), KLC(KalyChain)
 Token contract address* - token's contract address in blockchain.
     Enter address with upper case symbols
     (i.e. 0xdAC17F958D2ee523a2206206994597C13D831ec7)
@@ -124,7 +127,7 @@ class Command(BaseCommand):
             # common token data
             token_symbol = prompt('Token symbol* (i.e. USDT)').upper()
             blockchain_symbol = prompt('Token blockchain symbol* (i.e. ETH)', choices=[
-                'ETH', 'BNB', 'TRX', 'MATIC',
+                'ETH', 'BNB', 'TRX', 'MATIC', 'KLC',
             ])
 
             if is_token_exists(token_symbol, blockchain_symbol):
@@ -364,7 +367,7 @@ def prompt_contract(blockchain):
         if not check_address(blockchain, contract, blockchain):
             print('[!] Incorrect contract address')
             continue
-        if blockchain in ['ETH', 'BNB', 'MATIC']:
+        if blockchain in ['ETH', 'BNB', 'MATIC', 'KLC']:
             contract = Web3.to_checksum_address(contract)
         exists_contracts = [v.contract_address for k, v in TOKENS_BLOCKCHAINS_MAP[blockchain].items()]
         if contract in exists_contracts:

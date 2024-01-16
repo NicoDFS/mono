@@ -36,6 +36,7 @@ bit==0.7.2
 bitarray==2.7.3
 bitcoin==1.1.42
 Brotli==1.0.9
+boto3==1.20.23
 cached-property==1.5.2
 cachetools==4.2.2
 cashaddress==1.0.6

@@ -207,6 +207,9 @@ export default {
       if (this.blockchain === "TRX") {
         return this.$t("common.tron_network");
       }
+      if (this.blockchain === "KLC") {
+        return this.$t("common.kalychain_network");
+      }
       return "";
     },
     checkingBlockchainCurrencyAddress() {

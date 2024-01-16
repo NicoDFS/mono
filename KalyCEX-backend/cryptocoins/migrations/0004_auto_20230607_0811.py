@@ -13,6 +13,17 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='KLCWithdrawalApprove',
+            fields=[
+            ],
+            options={
+                'proxy': True,
+                'indexes': [],
+                'constraints': [],
+            },
+            bases=('core.withdrawalrequest',),
+        ),
+        migrations.CreateModel(
             name='BNBWithdrawalApprove',
             fields=[
             ],

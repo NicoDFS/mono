@@ -11,6 +11,7 @@ from cryptocoins.coins.btc.service import BTCCoinService
 from cryptocoins.coins.eth import ETH_CURRENCY
 from cryptocoins.coins.matic import MATIC_CURRENCY
 from cryptocoins.coins.trx import TRX_CURRENCY
+from cryptocoins.coins.klc import KLC_CURRENCY
 from cryptocoins.models import ScoringSettings
 from cryptocoins.models import TransactionInputScore
 from cryptocoins.models.proxy import BNBWithdrawalApprove, MaticWithdrawalApprove
@@ -22,6 +23,7 @@ from cryptocoins.serializers import BTCKeySerializer
 from cryptocoins.serializers import ETHKeySerializer
 from cryptocoins.serializers import TRXKeySerializer
 from cryptocoins.serializers import MaticKeySerializer
+from cryptocoins.serializers import KLCKeySerializer
 from cryptocoins.tasks.evm import process_payouts_task
 
 

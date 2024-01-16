@@ -39,6 +39,7 @@ from cryptocoins.coins.usdt import USDT
 from cryptocoins.coins.bnb import BNB
 from cryptocoins.coins.trx import TRX
 from cryptocoins.coins.matic import MATIC
+from cryptocoins.coins.klc import KLC
 
 from cryptocoins.utils.btc import generate_btc_multisig_keeper
 
@@ -56,6 +57,7 @@ def main():
     IS_TRON = env('COMMON_TASKS_TRON', default=True, cast=bool)
     IS_BSC = env('COMMON_TASKS_BNB', default=True, cast=bool)
     IS_MATIC = env('COMMON_TASKS_MATIC', default=True, cast=bool)
+    IS_KLC = env('COMMON_TASKS_KLC', default=True, cast=bool)
 
     coin_list = [
         ETH,
@@ -64,6 +66,7 @@ def main():
         BNB,
         TRX,
         MATIC,
+        KLC,
     ]
     coin_info = {
         ETH: [
@@ -410,6 +413,63 @@ def main():
                 },
             },
         ],
+        KLC: [
+            {
+                'model': CoinInfo,
+                'find': {'currency': KLC},
+                'attributes': {
+                    'name': 'KLC',
+                    'decimals': 8,
+                    'index': 3,
+                    'tx_explorer': 'https://kalyscan.io/tx/',
+                    'links': {
+                        "cmc": {
+                            "href": "https://coinmarketcap.com/currencies/kalycoin/",
+                            "title": "CoinMarketCap"
+                        },
+                        "exp": {
+                            "href": "https://kalyscan.io/",
+                            "title": "Explorer"
+                        },
+                        "official": {
+                            "href": "https://www.kalychain.io/",
+                            "title": "www.kalychain.io"
+                        }
+                    },
+                    'logo': 'https://s2.coinmarketcap.com/static/img/coins/64x64/20529.png',
+                },
+            },
+            {
+                'model': FeesAndLimits,
+                'find': {'currency': KLC},
+                'attributes': {
+                    'limits_deposit_min': 1,
+                    'limits_deposit_max': 10000000.00000000,
+                    'limits_withdrawal_min': 1,
+                    'limits_withdrawal_max': 10000000.00000000,
+                    'limits_order_min': 0.01000000,
+                    'limits_order_max': 100000000.00000000,
+                    'limits_code_max': 10000000.00000000,
+                    'limits_accumulation_min': 0.00010000,
+                    'fee_deposit_address': 0,
+                    'fee_deposit_code': 0,
+                    'fee_withdrawal_code': 0,
+                    'fee_order_limits': 0.00100000,
+                    'fee_order_market': 0.00200000,
+                    'fee_exchange_value': 0.00200000,
+                    'limits_keeper_accumulation_balance': 100000.00000000,
+                    'limits_accumulation_max_gas_price': 500.00000000,
+                },
+            },
+            {
+                'model': WithdrawalFee,
+                'find': {'currency': KLC},
+                'attributes': {
+                    'blockchain_currency': KLC,
+                    'address_fee': 0.00300000
+                },
+            },
+        ],
     }
 
     if not IS_BSC:
@@ -445,10 +505,26 @@ def main():
         )
 
     if not IS_MATIC:
-        coin_info[TRX].append(
+        coin_info[MATIC].append(
             {
                 'model': DisabledCoin,
                 'find': {'currency': MATIC},
+                'attributes': {
+                    'disable_all': True,
+                    'disable_stack': True,
+                    'disable_pairs': True,
+                    'disable_exchange': True,
+                    'disable_withdrawals': True,
+                    'disable_topups': True,
+                },
+            },
+        )
+
+    if not IS_KLC:
+        coin_info[KLC].append(
+            {
+                'model': DisabledCoin,
+                'find': {'currency': KLC},
                 'attributes': {
                     'disable_all': True,
                     'disable_stack': True,
@@ -511,6 +587,7 @@ def main():
                 BNB: 10,
                 TRX: 100_000,
                 MATIC: 10_000,
+                KLC: 100_000,
             }
 
             for currency_id, amount in topup_list.items():

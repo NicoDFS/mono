@@ -269,7 +269,8 @@ class PairsListView(APIView):
                         "blockchain_list": [
                           "ETH",
                           "BNB",
-                          "TRX"
+                          "TRX",
+                          "KLC"
                         ]
                       },
                       "stack_precisions": [

@@ -3,10 +3,12 @@ COMMON_COINS_INFO = {
         'ETH': 'ERC-20',
         'TRX': 'TRC-20',
         'BNB': 'BEP-20',
+        'KLC': 'KRC-20',
     },
     'token_tx_explorers': {
         'ETH': 'https://etherscan.io/tx/', 
         'BNB': 'https://bscscan.com/tx/', 
         'TRX': 'https://tronscan.io/#/transaction/',
+        'KLC': 'https://kalyscan.io/tx/',
     },
 }

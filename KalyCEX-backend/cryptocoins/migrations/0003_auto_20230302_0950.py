@@ -22,6 +22,9 @@ class Migration(migrations.Migration):
         migrations.DeleteModel(
             name='TRXWithdrawalApprove',
         ),
+        migrations.DeleteModel(
+            name='KLCWithdrawalApprove',
+        ),
         migrations.RemoveField(
             model_name='accumulationtransaction',
             name='accumulation_state',

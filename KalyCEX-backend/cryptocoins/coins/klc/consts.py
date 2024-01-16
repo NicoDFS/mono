@@ -1,0 +1,3 @@
+KLC = 3
+CODE = 'KLC'
+DECIMALS = 18

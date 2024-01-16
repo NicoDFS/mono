@@ -319,6 +319,8 @@ export default {
           return "sendOnlyBep20";
         case "TRX":
           return "sendOnlyTrc20";
+        case "KLC":
+          return "sendOnlyKrc20";
         default:
           return "sendOnlyErc20";
       }

@@ -7,6 +7,8 @@ from cryptocoins.monitoring.monitors.erc20_monitor import UsdtEthMonitor
 from cryptocoins.monitoring.monitors.eth_monitor import EthMonitor
 from cryptocoins.monitoring.monitors.trc20_monitor import UsdtTrxMonitor
 from cryptocoins.monitoring.monitors.trx_monitor import TrxMonitor
+from cryptocoins.monitoring.monitors.krc20_monitor import UsdtKlcMonitor
+from cryptocoins.monitoring.monitors.klc_monitor import KlcMonitor
 
 log = logging.getLogger(__name__)
 
@@ -15,9 +17,11 @@ MONITORS = {
     'ETH': EthMonitor,
     'TRX': TrxMonitor,
     'BNB': BnbMonitor,
+    'KLC': KlcMonitor,
     'USDTTRX': UsdtTrxMonitor,
     'USDTETH': UsdtEthMonitor,
     'USDTBNB': UsdtBnbMonitor,
+    'USDTKLC': UsdtKlcMonitor,
 }
 
 
