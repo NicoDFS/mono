@@ -7,6 +7,24 @@ class TransactionController:
     def __init__(self, web3signer_url):
         self.web3signer_service = Web3SignerService(web3signer_url)
 
+    def create_klc_address():
+    # Initialize the AWS KMS service
+        aws_kms_service = AwsKmsService(endpoint_url='your_endpoint_url') #TODO get from env
+
+        # Create a new key using the AWS KMS service
+        key_id = aws_kms_service.create_new_key()
+
+        # Initialize the Web3Signer service
+        web3signer_service = Web3SignerService(key_id=key_id)
+
+        # Create a new address using the Web3Signer service
+        address = web3signer_service.create_new_address()
+
+        # Encrypt the private key using the AWS KMS service
+        encrypted_key = aws_kms_service.encrypt_key(web3signer_service.get_private_key())
+
+        return address, encrypted_key
+
     def create_transaction(self, transaction, key_id):
         from_address = transaction['from']
         to_address = transaction['to']

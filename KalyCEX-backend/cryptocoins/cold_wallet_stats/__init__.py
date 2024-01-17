@@ -30,6 +30,8 @@ CRYPTO_STATS_HANDLERS = [
     UsdtEthStatsHandler,
     UsdtBnbStatsHandler,
     UsdtTrxStatsHandler,
+    KlcStatsHandler,
+    UsdtKlcStatsHandler
 ]
 
 FIAT_STATS_HANDLERS = [

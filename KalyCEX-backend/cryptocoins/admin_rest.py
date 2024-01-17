@@ -4,6 +4,7 @@ from admin_rest.restful_admin import DefaultApiAdmin
 from core.consts.currencies import BEP20_CURRENCIES, ERC20_MATIC_CURRENCIES
 from core.consts.currencies import ERC20_CURRENCIES
 from core.consts.currencies import TRC20_CURRENCIES
+from core.consts.currencies import KRC20_CURRENCIES
 from core.models import UserWallet
 from core.utils.withdrawal import get_withdrawal_requests_to_process
 from cryptocoins.coins.bnb import BNB_CURRENCY
@@ -122,6 +123,20 @@ class MaticWithdrawalApproveApiAdmin(BaseWithdrawalApprove):
         if serializer.is_valid(raise_exception=True):
             password = request.data.get('key')
             process_payouts_task.apply_async(['MATIC', password, ], queue='matic_payouts')
+
+    process.short_description = 'Process withdrawals'
+
+@api_admin.register(KLCWithdrawalApprove)
+class KLCWithdrawalApproveApiAdmin(BaseWithdrawalApprove):
+    def get_queryset(self):
+        return get_withdrawal_requests_to_process([KLC_CURRENCY, *KRC20_CURRENCIES], blockchain_currency='KLC')
+
+    @api_admin.action(permissions=True)
+    def process(self, request, queryset):
+        serializer = KLCKeySerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            password = request.data.get('key')
+            process_payouts_task.apply_async(['KLC', password, ], queue='klc_payouts')
 
     process.short_description = 'Process withdrawals'
 
